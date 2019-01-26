@@ -11,7 +11,7 @@ class Msg {
 
     async send (text) {
         const msg = await this.parent._call('messages.send', {
-            user_id: this.author,
+            peer_id: this.author,
             message: text,
             v: this.parent.version,
             random_id: this.messageId
