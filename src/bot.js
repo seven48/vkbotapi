@@ -3,8 +3,8 @@ const { Msg } = require('./msg')
 
 class Bot {
   /**
-     * @param {BotOptions} options
-     */
+   * @param {BotOptions} options
+   */
   constructor (options) {
     if (!options.token) {
       throw Error('Vk API must be specified')
@@ -13,9 +13,13 @@ class Bot {
     this.alias = options.alias || 'Бот'
     this.version = options.version || 5.92
 
+    /** @type {BotCommand[]} */
     this.commands = []
   }
 
+  /**
+   * @returns {void}
+   */
   async poll () {
     const pollData = await this._call('messages.getLongPollServer', {
       v: this.version
@@ -58,15 +62,20 @@ class Bot {
   }
 
   /**
-     *
-     * @param {RegExp} regexp Регулярное выражение
-     * @param {Function} callback Колбек
-     */
+   * @param {RegExp} regexp
+   * @param {(msg:VKMsg) => void} callback
+   * @returns {void}
+   */
   respond (regexp, callback) {
     const command = new RegExp(`${this.alias} ${regexp.source}`, regexp.flags)
     this.hear(command, callback)
   }
 
+  /**
+   * @param {RegExp} regexp
+   * @param {(msg:VKMsg) => void} callback
+   * @returns {void}
+   */
   hear (regexp, callback) {
     const command = {
       regexp,
@@ -75,6 +84,11 @@ class Bot {
     this.commands.push(command)
   }
 
+  /**
+   * @param {String} method
+   * @param {{}} data
+   * @returns {void}
+   */
   async _call (method, data = {}) {
     const parameters = []
     for (const key in data) {

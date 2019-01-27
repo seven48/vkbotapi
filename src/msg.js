@@ -1,4 +1,8 @@
 class Msg {
+  /**
+   * @param {VKBot} parent
+   * @param  {LongPollMessage} options
+   */
   constructor (parent, ...options) {
     this.parent = parent
     this.messageId = options[1]
@@ -9,6 +13,10 @@ class Msg {
     this.attach = options[7]
   }
 
+  /**
+   * @param {String} text
+   * @returns {{}}
+   */
   async send (text) {
     const msg = await this.parent._call('messages.send', {
       peer_id: this.author,
