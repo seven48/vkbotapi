@@ -1,14 +1,3 @@
-const request = require('request')
-
-async function httpGet (url) {
-  return new Promise((resolve, reject) => {
-    request(encodeURI(url), (error, response, body) => {
-      if (error) reject(error)
-      if (response) resolve(body)
-    })
-  })
-}
-
 function updatesAllocation (updates) {
   const result = {}
 
@@ -51,7 +40,6 @@ function flagDecoding (code) {
 }
 
 module.exports = {
-  httpGet,
   updatesAllocation,
   flagDecoding
 }

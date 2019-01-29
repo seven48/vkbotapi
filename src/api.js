@@ -1,4 +1,4 @@
-const utils = require('./utils')
+const axios = require('axios')
 
 class API {
   constructor (parent) {
@@ -13,16 +13,13 @@ class API {
    */
   async call (method, data = {}) {
     data.v = data.v || this.parent.v
+    data.access_token = this.parent.token
 
-    const parameters = []
+    const url = `https://api.vk.com/method/${method}`
 
-    for (const key in data) {
-      parameters.push(`${key}=${data[key]}`)
-    }
-
-    const url = `https://api.vk.com/method/${method}?${parameters.join('&')}&access_token=${this.parent.token}`
-
-    return JSON.parse(await utils.httpGet(url))
+    return axios.get(url, {
+      params: data
+    }).then(response => response.data)
   }
 }
 
