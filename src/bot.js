@@ -7,7 +7,7 @@ class Bot {
       throw Error('"token" is a required parameter.')
     }
 
-    this.v = options.v || '5.92'
+    this.v = 5.92
 
     this.account = {}
 
