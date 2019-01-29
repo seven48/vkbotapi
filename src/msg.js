@@ -1,3 +1,4 @@
+const axios = require('axios')
 const utils = require('./utils')
 const { Message } = require('./message')
 
@@ -41,9 +42,18 @@ class Msg {
     // StartPoll
     while (true) {
       // Getting updates from long polling server
-      const longPollingServer = `https://${server}?act=a_check&key=${key}&ts=${ts}&wait=25&mode=2&version=1`
+      const longPollingServer = `https://${server}`
 
-      const data = JSON.parse(await utils.httpGet(longPollingServer))
+      const { data } = await axios.get(longPollingServer, {
+        params: {
+          act: 'a_check',
+          key,
+          ts,
+          wait: 25,
+          mode: 2,
+          version: 1
+        }
+      })
 
       if (data.failed) {
         console.log('Long Polling connection is broken')

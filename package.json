@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/seven48/vkbotapi#readme",
   "dependencies": {
-    "request": "^2.88.0"
+    "axios": "^0.18.0"
   },
   "devDependencies": {
     "eslint": "^5.12.1",
