@@ -16,6 +16,13 @@ class Message {
     this.match = this.text.match(this.regexp)
   }
 
+  get user () {
+    return this.bot.api.call('users.get', {
+      user_ids: this.attachments.from ? this.attachments.from : this.peerId
+    })
+      .then(value => value.response.shift())
+  }
+
   async send (text, options = {}) {
     options.peer_id = this.peerId
     options.message = text
