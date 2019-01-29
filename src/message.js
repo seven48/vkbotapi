@@ -16,20 +16,28 @@ class Message {
     this.match = this.text.match(this.regexp)
   }
 
-  async send (text) {
-    const msg = await this.bot.api.call('messages.send', {
-      peer_id: this.peerId,
-      message: text,
-      random_id: Math.random()
-    })
+  async send (text, options = {}) {
+    options.peer_id = this.peerId
+    options.message = text
+    options.random_id = Math.random()
+
+    const msg = await this.bot.api.call('messages.send', options)
 
     if (msg.error) {
       switch (msg.error.error_code) {
         case 14:
           setTimeout(() => this.send(...arguments), 1000)
           break
+        default:
+          console.log(msg.error)
       }
     }
+  }
+
+  reply (text, options = {}) {
+    options.reply_to = this.messageId
+
+    return this.send(text, options)
   }
 }
 
